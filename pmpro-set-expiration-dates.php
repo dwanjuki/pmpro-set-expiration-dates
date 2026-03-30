@@ -2,8 +2,8 @@
 /*
 Plugin Name: Paid Memberships Pro - Set Expiration Dates Add On
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-set-expiration-dates/
-Description: Set a specific expiration date (e.g. 2013-12-31) for a PMPro membership level or discount code.
-Version: 0.7
+Description: Set a specific expiration date (e.g. 2026-12-31) for a PMPro membership level or discount code.
+Version: 0.8
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 Text Domain: pmpro-set-expiration-dates
@@ -31,7 +31,7 @@ function pmprosed_pmpro_membership_level_after_expiration_settings() {
 	}
 	?>
 	<h3 class="topborder"><?php esc_html_e( 'Set Expiration Date', 'pmpro-set-expiration-dates' ); ?></h3>
-	<p><?php _e( 'To have this level expire on a specific date, enter it below in YYYY-MM-DD format', 'pmpro-set-expiration-dates' ); ?>. <strong><?php _e( 'Note:', 'pmpro-set-expiration-dates' ); ?></strong> <?php _e( 'You must also set an expiration date above (e.g. 1 Year) which will be overwritten by the value below.', 'pmpro-set-expiration-dates' ); ?></p>
+	<p><?php esc_html_e( 'To have this level expire on a specific date, enter it below in YYYY-MM-DD format', 'pmpro-set-expiration-dates' ); ?>. <strong><?php esc_html_e( 'Note:', 'pmpro-set-expiration-dates' ); ?></strong> <?php esc_html_e( 'You must also set an expiration date above (e.g. 1 Year) which will be overwritten by the value below.', 'pmpro-set-expiration-dates' ); ?></p>
 	<table>
 		<tbody class="form-table">
 		<tr>
@@ -425,8 +425,8 @@ Function to add links to the plugin row meta
 function pmprosed_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-set-expiration-dates.php' ) !== false ) {
 		$set_links = array(
-			'<a href="' . esc_url( 'http://www.paidmembershipspro.com/add-ons/plugins-on-github/pmpro-expiration-date/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro-set-expiration-dates' ) ) . '">' . esc_html__( 'Docs', 'pmpro-set-expiration-dates' ) . '</a>',
-			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-set-expiration-dates' ) ) . '">' . esc_html__( 'Support', 'pmpro-set-expiration-dates' ) . '</a>',
+			'<a href="' . esc_url( 'http://www.paidmembershipspro.com/add-ons/plugins-on-github/pmpro-expiration-date/' ) . '" title="' . esc_attr__( 'View Documentation', 'pmpro-set-expiration-dates' ) . '">' . esc_html__( 'Docs', 'pmpro-set-expiration-dates' ) . '</a>',
+			'<a href="' . esc_url( 'http://paidmembershipspro.com/support/' ) . '" title="' . esc_attr__( 'Visit Customer Support Forum', 'pmpro-set-expiration-dates' ) . '">' . esc_html__( 'Support', 'pmpro-set-expiration-dates' ) . '</a>',
 		);
 		$links     = array_merge( $links, $set_links );
 	}
@@ -434,9 +434,6 @@ function pmprosed_plugin_row_meta( $links, $file ) {
 }
 add_filter( 'plugin_row_meta', 'pmprosed_plugin_row_meta', 10, 2 );
 
-/*
-	Update expiration text on levels page.
-*/
 /*
 	Update expiration text on levels and checkout page.
 */
@@ -464,4 +461,3 @@ function pmprosed_pmpro_level_expiration_text( $expiration_text, $level ) {
 	return $expiration_text;
 }
 add_filter( 'pmpro_level_expiration_text', 'pmprosed_pmpro_level_expiration_text', 10, 2 );
-
