@@ -100,8 +100,11 @@ function pmprosed_fixDate( $set_date, $current_date = null ) {
 	// Add months.
 	if ( ! empty( $add_months ) ) {
 		for ( $i = 0; $i < $add_months; $i++ ) {
-			// If "M1", only add months if current date of month has already passed.
-			if ( 0 == $i ) {
+			if ( 0 == $i && ! empty( $add_years ) && $add_years >= 2 ) {
+				// Y2+: pin M1 to the current month — let the year rolling handle the offset.
+				// Do nothing; temp_m is already set to the current month.
+			} elseif ( 0 == $i && 0 == $set_d ) {
+				// Y1 with no fixed day: only roll forward if current day has already passed.
 				if ( $temp_d < $current_d ) {
 					$temp_m++;
 					$add_months--;
