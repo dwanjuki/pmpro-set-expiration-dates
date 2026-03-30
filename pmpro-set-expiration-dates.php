@@ -163,14 +163,25 @@ function pmprosed_pmpro_checkout_level( $level, $discount_code_id = null ) {
 		return $level;
 	}
 
-	if ( empty( $discount_code_id ) && ! empty( $_REQUEST['discount_code'] ) ) {
-		// get discount code passed in
-		$discount_code = preg_replace( '/[^A-Za-z0-9\-]/', '', $_REQUEST['discount_code'] );
+	if ( empty( $discount_code_id ) ) {
+		// get discount code passed in, supporting multiple request keys for backward compatibility
+		$raw_discount_code = '';
+		if ( ! empty( $_REQUEST['pmpro_discount_code'] ) ) {
+			$raw_discount_code = $_REQUEST['pmpro_discount_code'];
+		} elseif ( ! empty( $_REQUEST['discount_code'] ) ) {
+			$raw_discount_code = $_REQUEST['discount_code'];
+		} elseif ( ! empty( $_REQUEST['code'] ) ) {
+			$raw_discount_code = $_REQUEST['code'];
+		}
 
-		if ( ! empty( $discount_code ) ) {
-			$discount_code_id = $wpdb->get_var( "SELECT id FROM $wpdb->pmpro_discount_codes WHERE code = '" . esc_sql( $discount_code ) . "' LIMIT 1" );
-		} else {
-			$discount_code_id = null;
+		if ( ! empty( $raw_discount_code ) ) {
+			$discount_code = preg_replace( '/[^A-Za-z0-9\-]/', '', $raw_discount_code );
+
+			if ( ! empty( $discount_code ) ) {
+				$discount_code_id = $wpdb->get_var( "SELECT id FROM $wpdb->pmpro_discount_codes WHERE code = '" . esc_sql( $discount_code ) . "' LIMIT 1" );
+			} else {
+				$discount_code_id = null;
+			}
 		}
 	}
 
@@ -450,3 +461,4 @@ function pmprosed_pmpro_level_expiration_text( $expiration_text, $level ) {
 	return $expiration_text;
 }
 add_filter( 'pmpro_level_expiration_text', 'pmprosed_pmpro_level_expiration_text', 10, 2 );
+
